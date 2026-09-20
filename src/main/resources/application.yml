@@ -1,0 +1,38 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: inovagab-api
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/inovagab}
+      auto-index-creation: true
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: America/Sao_Paulo
+
+inovagab:
+  jwt:
+    # Troque em producao. Precisa ter pelo menos 32 caracteres (HS256).
+    secret: ${JWT_SECRET:inovagab-fiap-2026-chave-secreta-de-desenvolvimento-troque-em-prod}
+    expiracao-horas: ${JWT_EXPIRACAO_HORAS:12}
+  ia:
+    gemini-api-key: ${GEMINI_API_KEY:}
+    gemini-model: ${GEMINI_MODEL:gemini-3.6-flash}
+    # Se true e a Gemini API nao estiver configurada/disponivel, usa avaliacao heuristica local (identificada no campo "modelo")
+    fallback-heuristica: ${IA_FALLBACK_HEURISTICA:true}
+  seed:
+    enabled: ${SEED_ENABLED:true}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+
+logging:
+  level:
+    br.com.fiap.inovagab: INFO

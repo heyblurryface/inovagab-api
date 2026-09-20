@@ -1,0 +1,24 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: inovagab-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  api:
+    build: .
+    container_name: inovagab-api
+    depends_on:
+      - mongo
+    ports:
+      - "8080:8080"
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/inovagab
+      JWT_SECRET: ${JWT_SECRET:-inovagab-fiap-2026-chave-secreta-de-desenvolvimento-troque-em-prod}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.6-flash}
+
+volumes:
+  mongo-data:

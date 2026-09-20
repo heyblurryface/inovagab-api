@@ -1,0 +1,130 @@
+### InovaGAB API - colecao de requisicoes (IntelliJ / VS Code REST Client)
+@host = http://localhost:8080
+@tokenOperador = COLE_AQUI
+@tokenGestor = COLE_AQUI
+@tokenLider = COLE_AQUI
+
+### Health (publico)
+GET {{host}}/api/health
+
+### Login operador
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "operador@inovagab.com", "senha": "123456" }
+
+### Login gestor
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "gestor@inovagab.com", "senha": "123456" }
+
+### Login lider
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "lider@inovagab.com", "senha": "123456" }
+
+### Meu perfil
+GET {{host}}/api/auth/me
+Authorization: Bearer {{tokenOperador}}
+
+### Orientacoes vigentes
+GET {{host}}/api/orientacoes
+Authorization: Bearer {{tokenOperador}}
+
+### Criar orientacao (LIDER)
+POST {{host}}/api/orientacoes
+Authorization: Bearer {{tokenLider}}
+Content-Type: application/json
+
+{
+  "titulo": "Seguranca nas rodovias",
+  "descricao": "Reduzir incidentes com apoio de telemetria e treinamento.",
+  "pilar": "Direcionamento",
+  "categoria": "Seguranca",
+  "campanha": "Rota Segura 2026",
+  "dataInicio": "2026-09-01"
+}
+
+### Criar ideia (OPERADOR) - troque o orientacaoId por um id real
+POST {{host}}/api/ideias
+Authorization: Bearer {{tokenOperador}}
+Content-Type: application/json
+
+{
+  "titulo": "Sensor de fadiga do motorista",
+  "descricao": "Camera que detecta sonolencia e alerta o motorista e a central, reduzindo risco de acidentes em viagens longas.",
+  "pilar": "Direcionamento",
+  "orientacaoId": ""
+}
+
+### Minhas ideias (OPERADOR)
+GET {{host}}/api/ideias/minhas
+Authorization: Bearer {{tokenOperador}}
+
+### Todas as ideias pendentes (GESTOR)
+GET {{host}}/api/ideias?status=pendente
+Authorization: Bearer {{tokenGestor}}
+
+### IA: avaliar todas as pendentes (GESTOR)
+POST {{host}}/api/ideias/avaliar-ia
+Authorization: Bearer {{tokenGestor}}
+
+### IA: ranking (GESTOR)
+GET {{host}}/api/ideias/ranking-ia
+Authorization: Bearer {{tokenGestor}}
+
+### Aprovar ideia (GESTOR) - troque o id
+PATCH {{host}}/api/ideias/ID_DA_IDEIA/status
+Authorization: Bearer {{tokenGestor}}
+Content-Type: application/json
+
+{ "status": "aprovada" }
+
+### Criar projeto (GESTOR)
+POST {{host}}/api/projetos
+Authorization: Bearer {{tokenGestor}}
+Content-Type: application/json
+
+{
+  "titulo": "Sensor de fadiga - piloto",
+  "descricao": "Instalacao em 20 veiculos da linha SP-ES.",
+  "pilar": "Direcionamento",
+  "orientacaoId": "",
+  "ideiaOrigemId": "",
+  "etapa": "planejamento",
+  "status": "em_andamento",
+  "investimento": 80000,
+  "retornoFinanceiro": 0,
+  "prazoMeses": 4,
+  "aumentoProdutividade": 0,
+  "reducaoCustos": 0
+}
+
+### Projetos (LIDER)
+GET {{host}}/api/projetos
+Authorization: Bearer {{tokenLider}}
+
+### Dashboard - resumo geral (LIDER)
+GET {{host}}/api/relatorios/resumo
+Authorization: Bearer {{tokenLider}}
+
+### Dashboard - por estrategia (LIDER)
+GET {{host}}/api/relatorios/por-estrategia
+Authorization: Bearer {{tokenLider}}
+
+### Dashboard - por projeto (LIDER)
+GET {{host}}/api/relatorios/por-projeto
+Authorization: Bearer {{tokenLider}}
+
+### Recompensas
+GET {{host}}/api/recompensas
+Authorization: Bearer {{tokenOperador}}
+
+### Resgatar (OPERADOR) - troque o id
+POST {{host}}/api/resgates
+Authorization: Bearer {{tokenOperador}}
+Content-Type: application/json
+
+{ "recompensaId": "ID_DA_RECOMPENSA" }
